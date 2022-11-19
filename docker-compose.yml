@@ -1,0 +1,11 @@
+version: '2'
+services:
+  app:
+    build: .
+    image: flask-task:test
+    command: /bin/bash
+    ports:
+      - 8080:8080
+    working_dir: /app/src
+    volumes:
+      - ./src:/app/src
