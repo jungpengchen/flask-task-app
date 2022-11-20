@@ -1,7 +1,7 @@
 #!/usr/local/bin/python3
 import os, threading
 from flasgger import Swagger, swag_from
-from flask import Flask, request, abort
+from flask import Flask, request
 from model.validation_class_model import CreateTaskRequest, Task, task_template
 from model.swagger_spec_model import list_task_spec, create_task_spec, update_task_spec, delete_task_spec
 
