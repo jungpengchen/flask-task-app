@@ -5,3 +5,4 @@ apispec
 pytest
 Flask-Testing
 pytest-cov
+requests
