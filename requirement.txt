@@ -2,3 +2,6 @@ flask==2.0.*
 flasgger
 marshmallow
 apispec
+pytest
+Flask-Testing
+pytest-cov

@@ -13,6 +13,11 @@ Swagger(app) if SWAGGER_ON else None
 task_max_id = 0
 task_id_dict = {}
 
+def init_task_list():
+    global task_max_id, task_id_dict
+    task_max_id = 0
+    task_id_dict.clear()
+
 @app.route('/tasks', methods=['GET'])
 @swag_from(list_task_spec)
 def list_task():
@@ -34,14 +39,14 @@ def create_task():
     task_id_dict[new_task['id']] = new_task
     return {"result": new_task}, 201
 
-@app.route('/task/<task_id>', methods=['PUT'])
+@app.route('/task/<int:task_id>', methods=['PUT'])
 @swag_from(update_task_spec)
 def update_task(task_id: int):
     global task_max_id, task_id_dict
     request_json = request.get_json()
     task = Task().dump(request_json)
     if task_id not in task_id_dict:
-        abort(404)
+        return f"task id {task_id}(type: {type(task_id)}) not in {task_id_dict.keys()}", 404
     
     task_id_dict[task['id']] = task
     if task['id'] != task_id:
@@ -52,15 +57,16 @@ def update_task(task_id: int):
     return {"result": task}
 
     
-@app.route('/task/<task_id>', methods=['DELETE'])
+@app.route('/task/<int:task_id>', methods=['DELETE'])
 @swag_from(delete_task_spec)
 def delete_task(task_id: int):
     global task_max_id, task_id_dict
     if task_id not in task_id_dict:
-        abort(404)
+        return f"task id {task_id}(type: {type(task_id)}) not in {task_id_dict.keys()}", 404
+
     del task_id_dict[task_id]
-    task_max_id = max(task_id_dict.keys())
-    return
+    task_max_id = max(task_id_dict.keys()) if len(task_id_dict) else 0
+    return 'OK'
 
 if __name__ == '__main__':
     app.run(debug=FLASK_DEBUG, host='0.0.0.0',port=8080,threaded=FLASK_DEBUG)
