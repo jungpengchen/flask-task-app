@@ -6,6 +6,7 @@ from model.validation_class_model import CreateTaskRequest, Task, task_template
 from model.swagger_spec_model import list_task_spec, create_task_spec, update_task_spec, delete_task_spec
 
 FLASK_DEBUG = bool(os.getenv("FLASK_DEBUG", "1"))
+FLASK_APP_PORT = int(os.getenv("FLASK_APP_PORT", "5000"))
 SWAGGER_ON = bool(int(os.getenv("SWAGGER_ON", "1")))
 app = Flask(__name__)
 Swagger(app) if SWAGGER_ON else None
@@ -69,4 +70,4 @@ def delete_task(task_id: int):
     return 'OK'
 
 if __name__ == '__main__':
-    app.run(debug=FLASK_DEBUG, host='0.0.0.0',port=8080,threaded=FLASK_DEBUG)
+    app.run(debug=FLASK_DEBUG, host='0.0.0.0',port=FLASK_APP_PORT,threaded=FLASK_DEBUG)

@@ -7,4 +7,4 @@ FROM builder as runner
 ENV FLASK_APP=server.py
 ENV FLASK_DEBUG=0
 COPY src /app/src
-CMD flask run --with-threads
+CMD python3 server.py
